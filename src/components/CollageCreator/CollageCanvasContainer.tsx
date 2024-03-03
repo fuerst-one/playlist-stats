@@ -4,7 +4,14 @@ import {
   EnterFullScreenIcon,
   ExitFullScreenIcon,
 } from "@radix-ui/react-icons";
-import { ReactNode, useEffect, useRef, useState } from "react";
+import {
+  ReactNode,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { Button } from "../ui/button";
 import { ButtonGroup } from "../ui/button-group";
 import { useCollageCreatorContext } from "./CollageCreatorContext";
@@ -19,6 +26,7 @@ export const CollageCanvasContainer = ({
   const isInitializedRef = useRef(false);
 
   const {
+    isLoading,
     canvasWidth,
     canvasHeight,
     isFullscreen,
@@ -27,14 +35,11 @@ export const CollageCanvasContainer = ({
   } = useCollageCreatorContext();
   const [zoom, setZoom] = useState(1);
 
-  // Fit canvas inside container on mount and when canvas size changes
-  useEffect(() => {
-    const isInitialized = isInitializedRef.current;
+  const centerCanvas = useCallback(() => {
     const container = containerRef.current;
-    if (isInitialized || !container) {
-      return;
+    if (!container) {
+      return false;
     }
-    // Center canvas
     container.scrollTo({
       top: (container.scrollHeight - container.clientHeight) / 2,
       left: (container.scrollWidth - container.clientWidth) / 2,
@@ -46,11 +51,19 @@ export const CollageCanvasContainer = ({
         container.clientHeight / canvasHeight,
       ) - 0.05,
     );
-    isInitializedRef.current = true;
+    return true;
+  }, [containerRef, canvasWidth, canvasHeight]);
+
+  // Fit canvas inside container on mount and when canvas size changes
+  useLayoutEffect(() => {
+    if (isInitializedRef.current || isLoading) {
+      return;
+    }
+    isInitializedRef.current = centerCanvas();
     return () => {
       isInitializedRef.current = false;
     };
-  }, [isInitializedRef, containerRef, canvasWidth, canvasHeight]);
+  }, [isInitializedRef, containerRef, isLoading, centerCanvas]);
 
   // Zoom on ctrl + scroll
   useEffect(() => {
@@ -85,7 +98,7 @@ export const CollageCanvasContainer = ({
           <Button size="xs" onClick={() => setZoom(zoom / 1.25)}>
             <MinusIcon />
           </Button>
-          <Button size="xs" onClick={() => setZoom(1)} className="text-xs">
+          <Button size="xs" onClick={centerCanvas} className="text-xs">
             {zoom !== 1 ? `${Math.round(zoom * 100)}%` : "100%"}
           </Button>
           <Button size="xs" onClick={() => setZoom(zoom * 1.25)}>
