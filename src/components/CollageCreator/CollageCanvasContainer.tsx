@@ -15,6 +15,8 @@ import {
 import { Button } from "../ui/button";
 import { ButtonGroup } from "../ui/button-group";
 import { useCollageCreatorContext } from "./CollageCreatorContext";
+import { useIsDeviceFullscreenCapable } from "@/hooks/useIsDeviceFullscreenCapable";
+import { useHasElementScrollbar } from "@/hooks/useHasElementScrollbar";
 
 export const CollageCanvasContainer = ({
   children,
@@ -24,6 +26,8 @@ export const CollageCanvasContainer = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const innerContainerRef = useRef<HTMLDivElement>(null);
   const isInitializedRef = useRef(false);
+
+  const isDeviceFullscreenCapable = useIsDeviceFullscreenCapable();
 
   const {
     isLoading,
@@ -40,11 +44,6 @@ export const CollageCanvasContainer = ({
     if (!container) {
       return false;
     }
-    container.scrollTo({
-      top: (container.scrollHeight - container.clientHeight) / 2,
-      left: (container.scrollWidth - container.clientWidth) / 2,
-      behavior: "auto",
-    });
     setZoom(
       Math.min(
         container.clientWidth / canvasWidth,
@@ -83,9 +82,13 @@ export const CollageCanvasContainer = ({
     };
   }, [containerRef]);
 
+  const hasElementScrollbar = useHasElementScrollbar(containerRef);
+
   return (
     <div className="relative mb-2 mt-4 overflow-hidden rounded border border-gray-700 bg-gray-950">
-      <div className="absolute right-6 top-2 z-10 flex items-center justify-end gap-1">
+      <div
+        className={`absolute top-2 z-10 flex items-center justify-end gap-1 ${hasElementScrollbar ? "right-6" : "right-1.5"}`}
+      >
         <Button
           size="xs"
           variant="outline"
@@ -104,21 +107,23 @@ export const CollageCanvasContainer = ({
           <Button size="xs" onClick={() => setZoom(zoom * 1.25)}>
             <PlusIcon />
           </Button>
-          <Button size="xs" onClick={toggleFullscreen}>
-            {isFullscreen ? <ExitFullScreenIcon /> : <EnterFullScreenIcon />}
-          </Button>
+          {isDeviceFullscreenCapable && (
+            <Button size="xs" onClick={toggleFullscreen}>
+              {isFullscreen ? <ExitFullScreenIcon /> : <EnterFullScreenIcon />}
+            </Button>
+          )}
         </ButtonGroup>
       </div>
       <div
         ref={containerRef}
-        className="flex w-full overflow-auto scrollbar scrollbar-track-gray-800 scrollbar-thumb-gray-600"
+        className="flex w-full items-center justify-center overflow-auto scrollbar scrollbar-track-gray-800 scrollbar-thumb-gray-600"
         style={{
           height: isFullscreen ? "calc(100vh - 200px)" : "calc(100vh - 420px)",
         }}
       >
         <div
           ref={innerContainerRef}
-          className="flex h-[2160px] w-[3840px] items-center justify-center"
+          className="flex h-[2160px] w-[3840px] origin-center items-center justify-center"
           style={{
             transform: `scale(${zoom})`,
           }}
