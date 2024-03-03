@@ -3,7 +3,7 @@ import { ResizableBox } from "react-resizable";
 import { Stage, Layer } from "react-konva";
 import { CollageCanvasImage } from "./CollageCanvasImage";
 import { useCollageCreatorContext } from "./CollageCreatorContext";
-import { CanvasContainer } from "./CanvasContainer";
+import { CollageCanvasContainer } from "./CollageCanvasContainer";
 
 export const CollageCanvas = () => {
   const {
@@ -29,14 +29,14 @@ export const CollageCanvas = () => {
 
   if (isLoading) {
     return (
-      <CanvasContainer>
+      <CollageCanvasContainer>
         <div className="text-lg font-semibold text-white">Loading...</div>
-      </CanvasContainer>
+      </CollageCanvasContainer>
     );
   }
 
   return (
-    <CanvasContainer>
+    <CollageCanvasContainer>
       <ResizableBox
         width={canvasWidth + 32}
         height={canvasHeight + 32}
@@ -53,6 +53,6 @@ export const CollageCanvas = () => {
           </Layer>
         </Stage>
       </ResizableBox>
-    </CanvasContainer>
+    </CollageCanvasContainer>
   );
 };

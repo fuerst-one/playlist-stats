@@ -4,14 +4,19 @@ import {
   EnterFullScreenIcon,
   ExitFullScreenIcon,
 } from "@radix-ui/react-icons";
-import { ReactNode, createRef, useEffect, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import { Button } from "../ui/button";
 import { ButtonGroup } from "../ui/button-group";
 import { useCollageCreatorContext } from "./CollageCreatorContext";
 
-export const CanvasContainer = ({ children }: { children: ReactNode }) => {
-  const containerRef = createRef<HTMLDivElement>();
-  const innerContainerRef = createRef<HTMLDivElement>();
+export const CollageCanvasContainer = ({
+  children,
+}: {
+  children: ReactNode;
+}) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const innerContainerRef = useRef<HTMLDivElement>(null);
+  const isInitializedRef = useRef(false);
 
   const {
     canvasWidth,
@@ -22,18 +27,30 @@ export const CanvasContainer = ({ children }: { children: ReactNode }) => {
   } = useCollageCreatorContext();
   const [zoom, setZoom] = useState(1);
 
-  // Scroll to center on mount and when canvas size changes
+  // Fit canvas inside container on mount and when canvas size changes
   useEffect(() => {
+    const isInitialized = isInitializedRef.current;
     const container = containerRef.current;
-    if (!container) {
+    if (isInitialized || !container) {
       return;
     }
+    // Center canvas
     container.scrollTo({
       top: (container.scrollHeight - container.clientHeight) / 2,
       left: (container.scrollWidth - container.clientWidth) / 2,
       behavior: "auto",
     });
-  }, [containerRef, canvasWidth, canvasHeight]);
+    setZoom(
+      Math.min(
+        container.clientWidth / canvasWidth,
+        container.clientHeight / canvasHeight,
+      ) - 0.05,
+    );
+    isInitializedRef.current = true;
+    return () => {
+      isInitializedRef.current = false;
+    };
+  }, [isInitializedRef, containerRef, canvasWidth, canvasHeight]);
 
   // Zoom on ctrl + scroll
   useEffect(() => {
