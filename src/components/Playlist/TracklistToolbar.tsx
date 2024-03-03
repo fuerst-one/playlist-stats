@@ -25,6 +25,12 @@ export const TracklistToolbar = ({
     onChangeSelectedTracks([]);
   };
 
+  const onSelectDistinct = () => {
+    onChangeSelectedTracks(
+      uniqBy(tracks, (track) => track.track.album.images[1].url),
+    );
+  };
+
   return (
     <div className="flex flex-wrap items-center justify-start gap-2 lg:flex-nowrap">
       <Button
@@ -40,6 +46,9 @@ export const TracklistToolbar = ({
         onClick={onDeselectAll}
       >
         Deselect All
+      </Button>
+      <Button variant="outline" onClick={onSelectDistinct}>
+        Select Distinct
       </Button>
       <Input
         placeholder="Filter tracks"
