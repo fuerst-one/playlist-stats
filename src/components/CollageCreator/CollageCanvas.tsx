@@ -22,8 +22,10 @@ export const CollageCanvas = () => {
   };
 
   const canvasImagesSorted = useMemo(() => {
-    return [...canvasImages].sort((a, b) => a.zIndex - b.zIndex);
-  }, [canvasImages]);
+    return [...canvasImages]
+      .sort((a, b) => a.zIndex - b.zIndex)
+      .filter((image) => image.y < canvasHeight);
+  }, [canvasImages, canvasHeight]);
 
   if (isLoading) {
     return (
