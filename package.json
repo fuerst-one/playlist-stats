@@ -1,27 +1,61 @@
 {
-  "name": "spotify-playlist-collage",
+  "name": "playlist-canvas",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --port 6860",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "@radix-ui/react-icons": "^1.3.0",
+    "@radix-ui/react-label": "^2.0.2",
+    "@radix-ui/react-slot": "^1.0.2",
+    "@tanstack/react-query": "^5.24.1",
+    "@uidotdev/usehooks": "^2.4.1",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.0",
+    "konva": "^9.3.3",
+    "lint-staged": "^15.2.2",
+    "lodash": "^4.17.21",
+    "next": "14.1.0",
     "react": "^18",
     "react-dom": "^18",
-    "next": "14.1.0"
+    "react-infinite-scroll-component": "^6.1.0",
+    "react-konva": "^18.2.10",
+    "react-resizable": "^3.0.5"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@types/lodash": "^4.14.202",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/react-resizable": "^3.0.7",
+    "@typescript-eslint/eslint-plugin": "^7.1.0",
     "autoprefixer": "^10.0.1",
-    "postcss": "^8",
-    "tailwindcss": "^3.3.0",
     "eslint": "^8",
-    "eslint-config-next": "14.1.0"
+    "eslint-config-next": "^14.1.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-prettier": "^5.1.3",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "husky": "^9.0.11",
+    "postcss": "^8",
+    "prettier": "^3.2.5",
+    "prettier-plugin-tailwindcss": "^0.5.11",
+    "tailwind-scrollbar": "^3.1.0",
+    "tailwindcss": "^3.3.0",
+    "tailwind-merge": "^2.2.1",
+    "tailwindcss-animate": "^1.0.7",
+    "typescript": "^5"
+  },
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx,json,scss}": "yarn prettier:fix",
+    "**/*.{ts,tsx,js,jsx}": [
+      "bash -c 'yarn typecheck'",
+      "yarn eslint:fix"
+    ]
   }
 }
