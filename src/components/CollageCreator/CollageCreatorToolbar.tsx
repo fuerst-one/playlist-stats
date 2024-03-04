@@ -6,6 +6,7 @@ import { CollageMode } from "./utils";
 import { useCollageCreatorContext } from "./CollageCreatorContext";
 import clamp from "lodash/clamp";
 import { CANVAS_MAX_WIDTH, CANVAS_MAX_HEIGHT } from "./constants";
+import { TrashIcon } from "@radix-ui/react-icons";
 
 const inputSize = "sm";
 
@@ -191,8 +192,17 @@ export const CollageCreatorToolbar = () => {
           type="color"
           value={backgroundColor}
           onChange={(e) => setBackgroundColor(e.target.value)}
-          className="w-[30px] p-0"
+          className="w-[32px] p-0"
         />
+        {backgroundColor && (
+          <Button
+            size={inputSize}
+            onClick={() => setBackgroundColor("")}
+            variant="outline"
+          >
+            <TrashIcon />
+          </Button>
+        )}
       </ButtonGroup>
     </div>
   );
