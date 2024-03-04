@@ -1,17 +1,24 @@
 import React, { useMemo } from "react";
 import { ResizableBox } from "react-resizable";
-import { Stage, Layer } from "react-konva";
+import { Stage, Layer, Rect } from "react-konva";
 import { CollageCanvasImage } from "./CollageCanvasImage";
 import { useCollageCreatorContext } from "./CollageCreatorContext";
 import { CollageCanvasContainer } from "./CollageCanvasContainer";
+import {
+  CANVAS_MAX_HEIGHT,
+  CANVAS_MAX_WIDTH,
+  CANVAS_MIN_HEIGHT,
+  CANVAS_MIN_WIDTH,
+} from "./constants";
 
 export const CollageCanvas = () => {
   const {
     canvasRef,
     isLoading,
+    canvasImages,
     canvasWidth,
     canvasHeight,
-    canvasImages,
+    backgroundColor,
     setCanvasWidth,
     setCanvasHeight,
   } = useCollageCreatorContext();
@@ -40,12 +47,19 @@ export const CollageCanvas = () => {
       <ResizableBox
         width={canvasWidth + 32}
         height={canvasHeight + 32}
-        minConstraints={[64, 64]}
-        maxConstraints={[3840, 2160]}
+        minConstraints={[CANVAS_MIN_WIDTH, CANVAS_MIN_HEIGHT]}
+        maxConstraints={[CANVAS_MAX_WIDTH, CANVAS_MAX_HEIGHT]}
         onResize={(_, { size }) => setDimensions(size)}
         className="bg-gray-800 p-4"
       >
         <Stage ref={canvasRef} width={canvasWidth} height={canvasHeight}>
+          <Layer>
+            <Rect
+              width={canvasWidth}
+              height={canvasHeight}
+              fill={backgroundColor}
+            />
+          </Layer>
           <Layer>
             {canvasImagesSorted.map((image) => (
               <CollageCanvasImage key={image.id} image={image} />

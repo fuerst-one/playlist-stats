@@ -5,6 +5,7 @@ import { Input } from "../ui/input";
 import { CollageMode } from "./utils";
 import { useCollageCreatorContext } from "./CollageCreatorContext";
 import clamp from "lodash/clamp";
+import { CANVAS_MAX_WIDTH, CANVAS_MAX_HEIGHT } from "./constants";
 
 const inputSize = "sm";
 
@@ -23,20 +24,22 @@ const resolutionOptions = [
 
 export const CollageCreatorToolbar = () => {
   const {
+    canvasWidth,
+    canvasHeight,
     collageMode,
     imageSizeFactor,
     imageGap,
-    canvasWidth,
-    canvasHeight,
+    backgroundColor,
+    setCanvasWidth,
+    setCanvasHeight,
     setCollageMode,
     setImageSizeFactor,
     setImageGap,
-    setCanvasWidth,
-    setCanvasHeight,
+    setBackgroundColor,
   } = useCollageCreatorContext();
 
   const isCustomResolution = resolutionOptions.every(
-    (option) => option.width !== canvasWidth && option.height !== canvasHeight,
+    (option) => option.width !== canvasWidth || option.height !== canvasHeight,
   );
 
   return (
@@ -77,7 +80,9 @@ export const CollageCreatorToolbar = () => {
             type="number"
             value={Math.round(canvasWidth)}
             onChange={(e) => {
-              setCanvasWidth(clamp(parseInt(e.currentTarget.value), 64, 3840));
+              setCanvasWidth(
+                clamp(parseInt(e.currentTarget.value), CANVAS_MAX_WIDTH),
+              );
             }}
             className="w-[80px]"
           />
@@ -89,7 +94,9 @@ export const CollageCreatorToolbar = () => {
             type="number"
             value={Math.round(canvasHeight)}
             onChange={(e) => {
-              setCanvasHeight(clamp(parseInt(e.currentTarget.value), 64, 2160));
+              setCanvasHeight(
+                clamp(parseInt(e.currentTarget.value), CANVAS_MAX_HEIGHT),
+              );
             }}
             className="w-[80px]"
           />
@@ -174,6 +181,18 @@ export const CollageCreatorToolbar = () => {
         >
           +
         </Button>
+      </ButtonGroup>
+      <ButtonGroup>
+        <Button size={inputSize} variant="outline" disabled>
+          Background color:
+        </Button>
+        <Input
+          $size={inputSize}
+          type="color"
+          value={backgroundColor}
+          onChange={(e) => setBackgroundColor(e.target.value)}
+          className="w-[30px] p-0"
+        />
       </ButtonGroup>
     </div>
   );

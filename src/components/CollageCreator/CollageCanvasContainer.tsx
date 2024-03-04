@@ -17,6 +17,11 @@ import { ButtonGroup } from "../ui/button-group";
 import { useCollageCreatorContext } from "./CollageCreatorContext";
 import { useIsDeviceFullscreenCapable } from "@/hooks/useIsDeviceFullscreenCapable";
 import { useHasElementScrollbar } from "@/hooks/useHasElementScrollbar";
+import {
+  CANVAS_MAX_HEIGHT,
+  CANVAS_MAX_WIDTH,
+  CANVAS_MIN_ZOOM,
+} from "./constants";
 
 export const CollageCanvasContainer = ({
   children,
@@ -44,11 +49,16 @@ export const CollageCanvasContainer = ({
     if (!container) {
       return false;
     }
+    container.scrollLeft = (CANVAS_MAX_WIDTH - container.clientWidth) / 2;
+    container.scrollTop = (CANVAS_MAX_HEIGHT - container.clientHeight) / 2;
     setZoom(
-      Math.min(
-        container.clientWidth / canvasWidth,
-        container.clientHeight / canvasHeight,
-      ) - 0.05,
+      Math.max(
+        Math.min(
+          container.clientWidth / canvasWidth,
+          container.clientHeight / canvasHeight,
+        ) - 0.05,
+        CANVAS_MIN_ZOOM,
+      ),
     );
     return true;
   }, [containerRef, canvasWidth, canvasHeight]);
@@ -73,7 +83,9 @@ export const CollageCanvasContainer = ({
     const handleWheel = (event: WheelEvent) => {
       if (event.ctrlKey) {
         event.preventDefault();
-        setZoom((prevZoom) => Math.max(prevZoom - event.deltaY * 0.01, 0.1));
+        setZoom((prevZoom) =>
+          Math.max(prevZoom - event.deltaY * 0.01, CANVAS_MIN_ZOOM),
+        );
       }
     };
     container.addEventListener("wheel", handleWheel, { passive: false });
@@ -116,15 +128,17 @@ export const CollageCanvasContainer = ({
       </div>
       <div
         ref={containerRef}
-        className="flex w-full items-center justify-center overflow-auto scrollbar scrollbar-track-gray-800 scrollbar-thumb-gray-600"
+        className="w-full overflow-auto scrollbar scrollbar-track-gray-800 scrollbar-thumb-gray-600"
         style={{
           height: isFullscreen ? "calc(100vh - 200px)" : "calc(100vh - 420px)",
         }}
       >
         <div
           ref={innerContainerRef}
-          className="flex h-[2160px] w-[3840px] origin-center items-center justify-center"
+          className="flex items-center justify-center overflow-hidden"
           style={{
+            width: CANVAS_MAX_WIDTH,
+            height: CANVAS_MAX_HEIGHT,
             transform: `scale(${zoom})`,
           }}
         >

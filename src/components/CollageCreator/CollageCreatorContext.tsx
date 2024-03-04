@@ -39,11 +39,12 @@ export type CollageCreatorContextType = {
   isLoading: boolean;
   canvasImages: CanvasImage[];
   selectedImage: CanvasImage | null;
+  canvasWidth: number;
+  canvasHeight: number;
   collageMode: CollageMode;
   imageSizeFactor: number;
   imageGap: number;
-  canvasWidth: number;
-  canvasHeight: number;
+  backgroundColor: string;
   isFullscreen: boolean;
   setCanvasImages: (
     canvasImages:
@@ -51,11 +52,12 @@ export type CollageCreatorContextType = {
       | ((canvasImages: CanvasImage[]) => CanvasImage[]),
   ) => void;
   setSelectedImage: (image: CanvasImage | null) => void;
+  setCanvasWidth: (canvasWidth: number) => void;
+  setCanvasHeight: (canvasHeight: number) => void;
   setCollageMode: (mode: CollageMode) => void;
   setImageSizeFactor: (imageSizeFactor: number) => void;
   setImageGap: (imageGap: number) => void;
-  setCanvasWidth: (canvasWidth: number) => void;
-  setCanvasHeight: (canvasHeight: number) => void;
+  setBackgroundColor: (color: string) => void;
   toggleFullscreen: () => void;
   randomizeOrder: () => void;
 };
@@ -65,19 +67,21 @@ export const CollageCreatorContext = createContext<CollageCreatorContextType>({
   isLoading: true,
   canvasImages: [],
   selectedImage: null,
+  canvasWidth: 800,
+  canvasHeight: 600,
   collageMode: CollageMode.Grid,
   imageSizeFactor: 1,
   imageGap: 0,
-  canvasWidth: 800,
-  canvasHeight: 600,
+  backgroundColor: "#00000000",
   isFullscreen: false,
   setCanvasImages: () => {},
   setSelectedImage: () => {},
+  setCanvasWidth: () => {},
+  setCanvasHeight: () => {},
   setCollageMode: () => {},
   setImageSizeFactor: () => {},
   setImageGap: () => {},
-  setCanvasWidth: () => {},
-  setCanvasHeight: () => {},
+  setBackgroundColor: () => {},
   toggleFullscreen: () => {},
   randomizeOrder: () => {},
 });
@@ -114,6 +118,7 @@ export const CollageCreatorProvider = <Image extends InputImage>({
   const [collageMode, setCollageMode] = useState<CollageMode>(CollageMode.Grid);
   const [imageSizeFactor, setImageSizeFactor] = useState(1);
   const [imageGap, setImageGap] = useState(0);
+  const [backgroundColor, setBackgroundColor] = useState("#00000000");
 
   // Load the images using react-query
   const { data: loadedImages, isLoading: imagesLoading } = useQuery({
@@ -204,19 +209,21 @@ export const CollageCreatorProvider = <Image extends InputImage>({
         isLoading,
         canvasImages,
         selectedImage,
+        canvasWidth,
+        canvasHeight,
         collageMode,
         imageSizeFactor,
         imageGap,
-        canvasWidth,
-        canvasHeight,
+        backgroundColor,
         isFullscreen,
         setCanvasImages,
         setSelectedImage,
+        setCanvasWidth,
+        setCanvasHeight,
         setCollageMode,
         setImageSizeFactor,
         setImageGap,
-        setCanvasWidth,
-        setCanvasHeight,
+        setBackgroundColor,
         toggleFullscreen,
         randomizeOrder,
       }}
