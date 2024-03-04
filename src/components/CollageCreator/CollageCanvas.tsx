@@ -42,6 +42,8 @@ export const CollageCanvas = () => {
     );
   }
 
+  const devicePixelRatio = window.devicePixelRatio || 1;
+
   return (
     <CollageCanvasContainer>
       <ResizableBox
@@ -52,11 +54,19 @@ export const CollageCanvas = () => {
         onResize={(_, { size }) => setDimensions(size)}
         className="bg-gray-800 p-4"
       >
-        <Stage ref={canvasRef} width={canvasWidth} height={canvasHeight}>
+        <Stage
+          ref={canvasRef}
+          width={canvasWidth / devicePixelRatio}
+          height={canvasHeight / devicePixelRatio}
+          style={{
+            transform: `scale(${devicePixelRatio})`,
+            transformOrigin: "top left",
+          }}
+        >
           <Layer>
             <Rect
-              width={canvasWidth}
-              height={canvasHeight}
+              width={canvasWidth / devicePixelRatio}
+              height={canvasHeight / devicePixelRatio}
               fill={backgroundColor}
             />
           </Layer>

@@ -36,8 +36,10 @@ export const useGetImageProps = ({
   imageSizeFactor: number;
   imageGap: number;
 }) => {
-  const canvasWidthThrottled = useDebounce(canvasWidth, 250);
-  const canvasHeightThrottled = useDebounce(canvasHeight, 250);
+  const devicePixelRatio = window.devicePixelRatio || 1;
+  const canvasWidthThrottled = useDebounce(canvasWidth, 250) / devicePixelRatio;
+  const canvasHeightThrottled =
+    useDebounce(canvasHeight, 250) / devicePixelRatio;
 
   return useCallback(
     (
@@ -49,21 +51,25 @@ export const useGetImageProps = ({
       y: number;
       zIndex: number;
     } => {
-      const computedSize = (images[index]?.width ?? 64) * imageSizeFactor;
+      const computedSize =
+        ((images[index]?.width ?? 64) * imageSizeFactor) / devicePixelRatio;
 
       if (collageMode === "random") {
         return {
           width: computedSize,
           height: computedSize,
-          x: (Math.random() * canvasWidthThrottled) - computedSize / 2,
-          y: (Math.random() * canvasHeightThrottled) - computedSize / 2,
+          x: Math.random() * canvasWidthThrottled - computedSize / 2,
+          y: Math.random() * canvasHeightThrottled - computedSize / 2,
           zIndex: index,
         };
       }
 
-      const sizeWithGap = computedSize + imageGap;
+      const computedImageGap = imageGap / devicePixelRatio;
+      const sizeWithGap = computedSize + computedImageGap;
+
       const gridColumns = Math.ceil(canvasWidthThrottled / sizeWithGap);
       const gridRows = Math.ceil(canvasHeightThrottled / sizeWithGap);
+
       const hasMoreImagesThanColumns = images.length >= gridColumns;
       const hasMoreImagesThanRows =
         images.length >= gridColumns * (gridRows - 1) + 1;
@@ -71,11 +77,11 @@ export const useGetImageProps = ({
       const finalWidth = sizeWithGap * gridColumns;
       const finalHeight = sizeWithGap * gridRows;
       const xOffset = hasMoreImagesThanColumns
-        ? imageGap / 2 + (canvasWidthThrottled - finalWidth) / 2
-        : imageGap / 2;
+        ? computedImageGap / 2 + (canvasWidthThrottled - finalWidth) / 2
+        : computedImageGap / 2;
       const yOffset = hasMoreImagesThanRows
-        ? imageGap / 2 + (canvasHeightThrottled - finalHeight) / 2
-        : imageGap / 2;
+        ? computedImageGap / 2 + (canvasHeightThrottled - finalHeight) / 2
+        : computedImageGap / 2;
 
       return {
         width: computedSize,
@@ -92,6 +98,7 @@ export const useGetImageProps = ({
       canvasHeightThrottled,
       imageSizeFactor,
       imageGap,
+      devicePixelRatio,
     ],
   );
 };
