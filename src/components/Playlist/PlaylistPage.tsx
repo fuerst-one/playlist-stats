@@ -4,7 +4,7 @@ import { SpotifyPlaylist } from "@/types/Spotify";
 import React, { useState } from "react";
 import { PlaylistDetail } from "./PlaylistDetail";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { fetchPlaylists } from "@/server/fetchPlaylists";
+import { fetchPlaylists } from "@/lib/fetchPlaylists";
 import { PlaylistSearch } from "@/components/Playlist/PlaylistSearch";
 import { AppLayout } from "@/components/AppLayout";
 import { LegalLinks } from "@/components/LegalLinks";

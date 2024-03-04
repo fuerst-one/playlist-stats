@@ -1,4 +1,4 @@
-"use server";
+"use client";
 
 import { SpotifyEnumeratedResponse, SpotifyPlaylist } from "@/types/Spotify";
 import { fetchSpotify } from "./fetchSpotify";

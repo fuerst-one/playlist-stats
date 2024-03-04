@@ -3,7 +3,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { SpotifyPlaylist, SpotifyPlaylistItem } from "@/types/Spotify";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { fetchPlaylistTracks } from "@/server/fetchPlaylistTracks";
+import { fetchPlaylistTracks } from "@/lib/fetchPlaylistTracks";
 import { TrackList } from "./TrackList";
 import dynamic from "next/dynamic";
 
