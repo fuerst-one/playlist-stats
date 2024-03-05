@@ -7,14 +7,20 @@ import { CollageCanvas } from "./CollageCanvas";
 import { DownloadButton } from "./DownloadButton";
 
 export const CollageCreator = ({
+  id,
   images,
   isInitialLoading,
 }: {
+  id: string;
   images: InputImage[];
   isInitialLoading: boolean;
 }) => {
   return (
-    <CollageCreatorProvider images={images} isInitialLoading={isInitialLoading}>
+    <CollageCreatorProvider
+      id={id}
+      images={images}
+      isInitialLoading={isInitialLoading}
+    >
       <div className="space-y-3">
         <CollageCreatorToolbar />
         <CollageCanvasImageToolbar />

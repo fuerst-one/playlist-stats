@@ -57,7 +57,11 @@ export const PlaylistDetail = ({ playlist }: { playlist: SpotifyPlaylist }) => {
     <div className="h-full w-full p-4 scrollbar scrollbar-track-gray-800 scrollbar-thumb-gray-600 lg:overflow-y-scroll lg:p-8">
       <h1 className="mb-4 text-5xl font-bold text-white">{playlist.name}</h1>
       <h2 className="mb-2 text-lg font-semibold text-gray-200">Your Collage</h2>
-      <CollageCreator images={images} isInitialLoading={isInitialLoading} />
+      <CollageCreator
+        id={playlist.name}
+        images={images}
+        isInitialLoading={isInitialLoading}
+      />
       <h2 className="mb-2 mt-8 text-lg font-semibold text-gray-200">
         {tracksTotal ?? "Loading"} Tracks{" "}
         {!isInitialLoading && (

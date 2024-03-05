@@ -28,6 +28,7 @@ export const useGetImageProps = ({
   canvasHeight,
   imageSizeFactor,
   imageGap,
+  pixelRatio,
 }: {
   images: SpotifyImage[];
   collageMode: CollageMode;
@@ -35,11 +36,10 @@ export const useGetImageProps = ({
   canvasHeight: number;
   imageSizeFactor: number;
   imageGap: number;
+  pixelRatio: number;
 }) => {
-  const devicePixelRatio = window.devicePixelRatio || 1;
-  const canvasWidthThrottled = useDebounce(canvasWidth, 250) / devicePixelRatio;
-  const canvasHeightThrottled =
-    useDebounce(canvasHeight, 250) / devicePixelRatio;
+  const canvasWidthThrottled = useDebounce(canvasWidth, 250) / pixelRatio;
+  const canvasHeightThrottled = useDebounce(canvasHeight, 250) / pixelRatio;
 
   return useCallback(
     (
@@ -52,7 +52,7 @@ export const useGetImageProps = ({
       zIndex: number;
     } => {
       const computedSize =
-        ((images[index]?.width ?? 64) * imageSizeFactor) / devicePixelRatio;
+        ((images[index]?.width ?? 64) * imageSizeFactor) / pixelRatio;
 
       if (collageMode === "random") {
         return {
@@ -64,7 +64,7 @@ export const useGetImageProps = ({
         };
       }
 
-      const computedImageGap = imageGap / devicePixelRatio;
+      const computedImageGap = imageGap / pixelRatio;
       const sizeWithGap = computedSize + computedImageGap;
 
       const gridColumns = Math.ceil(canvasWidthThrottled / sizeWithGap);
@@ -98,7 +98,7 @@ export const useGetImageProps = ({
       canvasHeightThrottled,
       imageSizeFactor,
       imageGap,
-      devicePixelRatio,
+      pixelRatio,
     ],
   );
 };
