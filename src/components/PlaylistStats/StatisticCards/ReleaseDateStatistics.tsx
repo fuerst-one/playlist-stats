@@ -1,10 +1,8 @@
 import React, { useMemo } from "react";
 import { StatisticCard } from "../StatisticCard";
 import { TrackStatistic } from "@/lib/fetchPlaylistStats";
-import ReactECharts from "echarts-for-react";
 import { countGroupAndSort } from "./utils";
 import dayjs from "dayjs";
-import { echartsTheme } from "../../../../echarts-theme";
 
 export const ReleaseDateStatistics = ({
   trackStatistics,
@@ -19,29 +17,27 @@ export const ReleaseDateStatistics = ({
     });
   }, [trackStatistics]);
   return (
-    <StatisticCard label="Release Dates">
-      <ReactECharts
-        theme={echartsTheme}
-        option={{
-          grid: { left: 20, right: 0, bottom: 20, top: 20 },
-          xAxis: {
-            type: "category",
-            data: data.labels,
+    <StatisticCard
+      label="Release Dates"
+      option={{
+        grid: { left: 20, right: 0, bottom: 20, top: 20 },
+        xAxis: {
+          type: "category",
+          data: data.labels,
+        },
+        yAxis: {
+          type: "value",
+        },
+        series: [
+          {
+            data: data.values,
+            type: "bar",
           },
-          yAxis: {
-            type: "value",
-          },
-          series: [
-            {
-              data: data.values,
-              type: "bar",
-            },
-          ],
-          tooltip: {
-            trigger: "axis",
-          },
-        }}
-      />
-    </StatisticCard>
+        ],
+        tooltip: {
+          trigger: "axis",
+        },
+      }}
+    />
   );
 };

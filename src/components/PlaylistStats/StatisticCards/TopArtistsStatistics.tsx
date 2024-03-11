@@ -1,9 +1,7 @@
 import React, { useMemo } from "react";
 import { StatisticCard } from "../StatisticCard";
 import { TrackStatistic } from "@/lib/fetchPlaylistStats";
-import ReactECharts from "echarts-for-react";
 import { countGroupAndSort } from "./utils";
-import { echartsTheme } from "../../../../echarts-theme";
 
 export const TopArtistsStatistics = ({
   trackStatistics,
@@ -20,29 +18,27 @@ export const TopArtistsStatistics = ({
     });
   }, [trackStatistics]);
   return (
-    <StatisticCard label="Top 10 Artists">
-      <ReactECharts
-        theme={echartsTheme}
-        option={{
-          grid: { left: 20, right: 0, bottom: 20, top: 20 },
-          xAxis: {
-            type: "category",
-            data: data.labels,
+    <StatisticCard
+      label="Top 10 Artists"
+      option={{
+        grid: { left: 20, right: 0, bottom: 20, top: 20 },
+        xAxis: {
+          type: "category",
+          data: data.labels,
+        },
+        yAxis: {
+          type: "value",
+        },
+        series: [
+          {
+            data: data.values,
+            type: "bar",
           },
-          yAxis: {
-            type: "value",
-          },
-          series: [
-            {
-              data: data.values,
-              type: "bar",
-            },
-          ],
-          tooltip: {
-            trigger: "axis",
-          },
-        }}
-      />
-    </StatisticCard>
+        ],
+        tooltip: {
+          trigger: "axis",
+        },
+      }}
+    />
   );
 };

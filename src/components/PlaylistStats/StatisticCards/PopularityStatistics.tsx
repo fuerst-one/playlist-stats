@@ -1,11 +1,9 @@
 import React, { useMemo } from "react";
 import { StatisticCard } from "../StatisticCard";
 import { TrackStatistic } from "@/lib/fetchPlaylistStats";
-import ReactECharts from "echarts-for-react";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 import { countGroupAndSort } from "./utils";
-import { echartsTheme } from "../../../../echarts-theme";
 
 dayjs.extend(duration);
 
@@ -23,29 +21,27 @@ export const PopularityStatistics = ({
     });
   }, [trackStatistics]);
   return (
-    <StatisticCard label="Tracks by Popularity">
-      <ReactECharts
-        theme={echartsTheme}
-        option={{
-          grid: { left: 20, right: 0, bottom: 20, top: 20 },
-          xAxis: {
-            type: "category",
-            data: data.labels,
+    <StatisticCard
+      label="Tracks by Popularity"
+      option={{
+        grid: { left: 20, right: 0, bottom: 20, top: 20 },
+        xAxis: {
+          type: "category",
+          data: data.labels,
+        },
+        yAxis: {
+          type: "value",
+        },
+        series: [
+          {
+            data: data.values,
+            type: "bar",
           },
-          yAxis: {
-            type: "value",
-          },
-          series: [
-            {
-              data: data.values,
-              type: "bar",
-            },
-          ],
-          tooltip: {
-            trigger: "axis",
-          },
-        }}
-      />
-    </StatisticCard>
+        ],
+        tooltip: {
+          trigger: "axis",
+        },
+      }}
+    />
   );
 };

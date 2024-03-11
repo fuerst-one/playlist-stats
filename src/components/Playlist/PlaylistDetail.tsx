@@ -19,9 +19,9 @@ export const PlaylistDetail = ({ playlist }: { playlist: SpotifyPlaylist }) => {
   const playlistStatsQuery = useQuery({
     queryKey: ["playlist stats", playlist.tracks.href],
     queryFn: () => fetchPlaylistStats(playlist.tracks.href),
+    refetchInterval: 0,
+    staleTime: 0,
   });
-
-  console.log(playlist, playlistStatsQuery.data);
 
   return (
     <div className="h-full w-full p-4 scrollbar scrollbar-track-gray-800 scrollbar-thumb-gray-600 lg:overflow-y-scroll lg:p-8">

@@ -6,6 +6,7 @@ import { TopAlbumsStatistics } from "./StatisticCards/TopAlbumsStatistics";
 import { TopArtistsStatistics } from "./StatisticCards/TopArtistsStatistics";
 import { ReleaseDateStatistics } from "./StatisticCards/ReleaseDateStatistics";
 import { PopularityStatistics } from "./StatisticCards/PopularityStatistics";
+import { DurationPopularityStatistic } from "./StatisticCards/DurationPopularityStatistic";
 
 export const PlaylistStats = ({
   trackStatistics,
@@ -18,6 +19,7 @@ export const PlaylistStats = ({
         <TopArtistsStatistics trackStatistics={trackStatistics} />
         <TopAlbumsStatistics trackStatistics={trackStatistics} />
         <DurationStatistic trackStatistics={trackStatistics} />
+        <DurationPopularityStatistic trackStatistics={trackStatistics} />
         <PopularityStatistics trackStatistics={trackStatistics} />
         <ReleaseDateStatistics trackStatistics={trackStatistics} />
         <ExplicitStatistic trackStatistics={trackStatistics} />
