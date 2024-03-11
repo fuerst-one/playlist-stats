@@ -3,7 +3,6 @@ import { Inter } from "next/font/google";
 import { QueryClientProvider } from "@/lib/QueryClientProvider";
 
 import "./globals.css";
-import "react-resizable/css/styles.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
