@@ -7,8 +7,8 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Playlist-Canvas - fuerst.one x Spotify",
-  description: "Create Album Art Collages with your Spotify Playlists",
+  title: "Playlist-Stats - fuerst.one x Spotify",
+  description: "Find out more about your Spotify Playlists",
 };
 
 export default function RootLayout({

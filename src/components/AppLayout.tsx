@@ -9,7 +9,7 @@ export const AppLayout = ({ children }: { children: ReactNode }) => {
       <div className="fixed top-0 z-50 flex w-full items-center justify-between gap-3 bg-gray-800 px-4 py-2 shadow-header lg:static lg:h-16">
         <div className="flex flex-wrap items-center justify-start lg:flex-nowrap">
           <h1 className="w-full text-xl font-semibold text-white md:w-auto lg:text-3xl">
-            Playlist-Canvas
+            Playlist-Stats
           </h1>
           <span className="flex items-center gap-1 text-xs font-medium text-white md:mb-4 md:ml-2">
             <Link href="https://fuerst.one" className="hover:underline">

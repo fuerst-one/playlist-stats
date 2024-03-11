@@ -16,10 +16,10 @@ const Home = () => {
     <IntroLayout>
       <CardHeader>
         <h1 className="text-center text-xl font-bold text-secondary-light lg:text-4xl">
-          Playlist-Canvas
+          Playlist-Stats
         </h1>
         <p className="text-center text-gray-300">
-          Create Album Art Collages with your Spotify Playlists
+          Find out more about your Spotify Playlists
         </p>
       </CardHeader>
       <CardContent>
@@ -27,7 +27,7 @@ const Home = () => {
           <div className="flex flex-col items-center justify-center gap-3">
             <Link href="/playlists">
               <Button variant="primary" size="lg" className="shadow-lg">
-                Start Creating
+                Start Digging
               </Button>
             </Link>
             <LogoutButton size="lg" />
