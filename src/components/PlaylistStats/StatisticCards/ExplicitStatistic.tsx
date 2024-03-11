@@ -13,11 +13,11 @@ export const ExplicitStatistic = ({
       trackStatistics.filter((track) => track.explicit).length,
     ];
   }, [trackStatistics]);
+
   return (
     <StatisticCard
       label="Explicit or not?"
       option={{
-        grid: { left: 20, right: 0, bottom: 20, top: 20 },
         xAxis: {
           type: "category",
           data: ["Not Explicit", "Explicit"],

@@ -15,7 +15,7 @@ export const PlaylistStats = ({
 }) => {
   return (
     <div className="">
-      <div className="grid grid-cols-2 gap-2">
+      <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
         <TopArtistsStatistics trackStatistics={trackStatistics} />
         <TopAlbumsStatistics trackStatistics={trackStatistics} />
         <DurationStatistic trackStatistics={trackStatistics} />

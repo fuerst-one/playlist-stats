@@ -16,15 +16,14 @@ export const DurationStatistic = ({
     return countGroupAndSort({
       data: trackStatistics,
       accessor: (track) => Math.round(track.duration_ms / 15000) * 15000,
-      sorter: (entry) => dayjs.duration(entry).asSeconds(),
-      slice: 10,
+      sorter: (entry) => dayjs.duration(entry[0]).asSeconds(),
     });
   }, [trackStatistics]);
+
   return (
     <StatisticCard
       label="Tracks by Duration"
       option={{
-        grid: { left: 20, right: 0, bottom: 20, top: 20 },
         xAxis: {
           type: "category",
           data: data.labels.map((duration) => {

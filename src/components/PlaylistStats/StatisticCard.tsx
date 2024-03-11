@@ -18,7 +18,7 @@ export const StatisticCard = ({
           <ReactECharts
             theme={echartsTheme}
             option={{
-              grid: { left: 20, right: 40, bottom: 20, top: 20 },
+              grid: { left: 35, right: 5, bottom: 20, top: 20 },
               ...option,
             }}
           />

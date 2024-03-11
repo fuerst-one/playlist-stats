@@ -16,15 +16,14 @@ export const PopularityStatistics = ({
     return countGroupAndSort({
       data: trackStatistics,
       accessor: (track) => Math.round(track.popularity / 10) * 10,
-      sorter: (entry) => entry,
-      slice: 11,
+      sorter: (entry) => parseInt(entry[0]),
     });
   }, [trackStatistics]);
+
   return (
     <StatisticCard
       label="Tracks by Popularity"
       option={{
-        grid: { left: 20, right: 0, bottom: 20, top: 20 },
         xAxis: {
           type: "category",
           data: data.labels,

@@ -17,11 +17,11 @@ export const TopArtistsStatistics = ({
       reverse: true,
     });
   }, [trackStatistics]);
+
   return (
     <StatisticCard
       label="Top 10 Artists"
       option={{
-        grid: { left: 20, right: 0, bottom: 20, top: 20 },
         xAxis: {
           type: "category",
           data: data.labels,

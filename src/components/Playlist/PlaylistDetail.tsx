@@ -19,8 +19,7 @@ export const PlaylistDetail = ({ playlist }: { playlist: SpotifyPlaylist }) => {
   const playlistStatsQuery = useQuery({
     queryKey: ["playlist stats", playlist.tracks.href],
     queryFn: () => fetchPlaylistStats(playlist.tracks.href),
-    refetchInterval: 0,
-    staleTime: 0,
+    staleTime: Infinity,
   });
 
   return (

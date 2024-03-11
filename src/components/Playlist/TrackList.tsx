@@ -19,7 +19,7 @@ export const TrackList = ({ tracks }: { tracks: TrackStatistic[] }) => {
     <div className="space-y-4">
       <TracklistToolbar tracks={tracks} onChangeSearch={setSearch} />
       <div className="overflow-hidden rounded border">
-        <div className="flex w-full flex-wrap items-start justify-start bg-gray-950 pr-1 pt-2 scrollbar scrollbar-track-gray-800 scrollbar-thumb-gray-600">
+        <div className="flex h-[450px] w-full flex-wrap items-start justify-start overflow-y-auto bg-gray-950 pr-1 pt-2 scrollbar scrollbar-track-gray-800 scrollbar-thumb-gray-600">
           {filteredTracks.map((track) => (
             <TrackListItem key={track.id} track={track} />
           ))}

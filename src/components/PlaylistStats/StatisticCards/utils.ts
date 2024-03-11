@@ -14,7 +14,7 @@ export const countGroupAndSort = <
 }: {
   data: T[];
   accessor: keyof T | ((entry: T) => V);
-  sorter?: keyof T | ((entry: V) => number);
+  sorter?: keyof T | ((entry: [string, V]) => number);
   reverse?: boolean;
   slice?: number;
 }) => {
