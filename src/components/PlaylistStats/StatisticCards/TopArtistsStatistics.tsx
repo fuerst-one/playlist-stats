@@ -28,7 +28,8 @@ export const TopArtistsStatistics = ({
           value,
           children: [],
           itemStyle: {
-            color: getCssVar("--color-primary-light"),
+            color: getCssVar("--color-primary"),
+            borderColor: getCssVar("--color-primary-dark"),
           },
           label: {
             color: getCssVar("--color-gray-600"),
@@ -98,14 +99,14 @@ export const TopArtistsStatistics = ({
       addon={
         <ButtonGroup>
           <Button
-            variant={viewMode === "treemap" ? "primary" : "outline"}
+            variant={viewMode === "treemap" ? "default" : "outline"}
             size="xs"
             onClick={() => setViewMode("treemap")}
           >
             <span className="text-xs leading-tight">Treemap</span>
           </Button>
           <Button
-            variant={viewMode === "bar" ? "primary" : "outline"}
+            variant={viewMode === "bar" ? "default" : "outline"}
             size="xs"
             onClick={() => setViewMode("bar")}
           >

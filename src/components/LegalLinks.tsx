@@ -23,7 +23,7 @@ export const LegalLinks = ({
       <Link href="https://fuerst.one/impressum" className="hover:underline">
         imprint
       </Link>
-      <Link href="https://fuerst.one/impressum" className="hover:underline">
+      <Link href="https://fuerst.one/datenschutz" className="hover:underline">
         privacy policy
       </Link>
     </div>

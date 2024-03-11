@@ -8,9 +8,9 @@ const splitLineColor = ["#444", "#333"];
 
 export const echartsTheme = {
   color: [
+    getCssVar("--color-primary"),
     getCssVar("--color-primary-light"),
     getCssVar("--color-primary-dark"),
-    getCssVar("--color-primary"),
   ],
   backgroundColor: "rgba(0, 0, 0, 0)",
   textStyle: {

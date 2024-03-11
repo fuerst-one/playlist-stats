@@ -46,14 +46,14 @@ export const ReleaseDateStatistics = ({
       addon={
         <ButtonGroup>
           <Button
-            variant={granularity === "month" ? "primary" : "outline"}
+            variant={granularity === "month" ? "default" : "outline"}
             size="xs"
             onClick={() => setGranularity("month")}
           >
             <span className="text-xs leading-tight">By Month</span>
           </Button>
           <Button
-            variant={granularity === "year" ? "primary" : "outline"}
+            variant={granularity === "year" ? "default" : "outline"}
             size="xs"
             onClick={() => setGranularity("year")}
           >

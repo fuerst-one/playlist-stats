@@ -1,7 +1,7 @@
 import React, { ReactNode, useMemo } from "react";
 import { Card, CardHeader, CardContent } from "../ui/card";
 import ReactECharts, { EChartsReactProps } from "echarts-for-react";
-import { echartsTheme } from "../../utils/echarts-theme";
+import { echartsTheme } from "../../utils/echartsTheme";
 import merge from "lodash/merge";
 
 export const StatisticCard = ({
