@@ -2,80 +2,109 @@ import React, { useMemo } from "react";
 import { StatisticCard } from "../StatisticCard";
 import { TrackStatistic } from "@/lib/fetchPlaylistStats";
 import { interpolate } from "@/utils/interpolate";
+import { formatTrackDuration } from "./utils";
 import groupBy from "lodash/groupBy";
-import dayjs from "dayjs";
+import sumBy from "lodash/sumBy";
 
 export const DurationPopularityStatistic = ({
   trackStatistics,
+  isLoading,
 }: {
   trackStatistics: TrackStatistic[];
+  isLoading?: boolean;
 }) => {
-  const { data, lengthFactor, valueMax } = useMemo(() => {
-    const baseData = trackStatistics.map(
-      (track) =>
-        [Math.round(track.duration_ms / 15000) * 15, track.popularity] as const,
+  const data = useMemo(() => {
+    // Group by duration to calculate avg popularity
+    const groupedByDuration = groupBy(
+      trackStatistics,
+      (track) => Math.round(track.duration_ms / 15000) * 15000,
+    );
+    const groupKeys = Object.keys(groupedByDuration);
+
+    // Calculate symbol size based on popularity
+    const lengthFactor = interpolate(1, 100, 10, 5, groupKeys.length);
+    const popularities = trackStatistics.map((track) => track.popularity);
+    const popularityMin = Math.min(...popularities);
+    const popularityMax = Math.max(...popularities);
+
+    const getSymbolSize = (popularity: number) => {
+      return Math.round(
+        interpolate(
+          popularityMin,
+          popularityMax,
+          lengthFactor,
+          lengthFactor * 5,
+          popularity,
+        ),
+      );
+    };
+
+    const data = Object.entries(groupedByDuration).map(
+      ([groupLabel, entries]) => {
+        const duration = parseInt(groupLabel);
+        const recordCount = entries.length;
+        const popularitySum = sumBy(entries, "popularity");
+        const popularityAvg = Math.round(popularitySum / recordCount);
+        const name = formatTrackDuration(duration, "ms");
+        const value = recordCount;
+        const symbolSize = getSymbolSize(popularityAvg);
+        return {
+          name,
+          value,
+          symbolSize,
+          duration,
+          recordCount,
+          popularitySum,
+          popularityAvg,
+        };
+      },
     );
 
-    const byDuration = groupBy(baseData, (entry) => entry[0]);
-
-    const result = Object.entries(byDuration).map(([duration, entries]) => {
-      const popularityAvg =
-        entries.reduce((acc, entry) => acc + entry[1], 0) / entries.length;
-      return [parseInt(duration), popularityAvg, entries.length] as const;
-    });
-
-    const resultFiltered = result.filter(
-      (entry) => entry[0] > 60 && entry[0] < 10 * 60,
-    );
-
-    // The larger the length, the smaller the size of the bubble
-    const lengthFactor = interpolate(1, 10000, 8, 1, resultFiltered.length);
-    const valueMax = Math.max(...resultFiltered.map((data) => data[1]));
-
-    return { data: resultFiltered, lengthFactor, valueMax };
+    return data;
   }, [trackStatistics]);
 
   return (
     <StatisticCard
-      label="Duration vs Popularity"
-      option={{
+      label="Recordcount by Duration"
+      isLoading={isLoading}
+      chartOptions={{
         xAxis: {
-          type: "value",
-          dataIndex: 0,
-          scale: true,
-          axisLabel: {
-            formatter: function (param: number) {
-              console.log(param);
-              return dayjs.duration(param, "seconds").format("mm:ss");
-            },
-          },
+          type: "category",
+          data: data.map((entry) => entry.name),
         },
         yAxis: {
-          scale: true,
+          type: "value",
+          data: data.map((entry) => entry.recordCount),
         },
         series: [
           {
-            name: "Duration vs Popularity",
             data: data,
             type: "scatter",
-            symbolSize: function (data: number[]) {
-              return interpolate(
-                1,
-                valueMax,
-                lengthFactor,
-                lengthFactor * 4,
-                data[1],
-              );
-            },
             label: {
               show: true,
-              formatter: function (param: { data: number[] }) {
-                return param.data[2];
+              formatter: (param: { data: (typeof data)[number] }) => {
+                const entry = param.data;
+                return entry.popularityAvg;
               },
               minMargin: 3,
             },
           },
+          {
+            data: data,
+            type: "bar",
+            itemStyle: {
+              width: 1,
+            },
+          },
         ],
+        tooltip: {
+          trigger: "item",
+          formatter: (param: { data: (typeof data)[number] }) => {
+            const entry = param.data;
+            const duration = formatTrackDuration(entry.duration);
+            return `Duration: ${duration}<br/>Tracks in range: ${entry.recordCount}<br/>Average popularity: ${entry.popularityAvg}`;
+          },
+        },
       }}
     />
   );

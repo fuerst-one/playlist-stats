@@ -5,8 +5,10 @@ import { countGroupAndSort } from "./utils";
 
 export const TopAlbumsStatistics = ({
   trackStatistics,
+  isLoading,
 }: {
   trackStatistics: TrackStatistic[];
+  isLoading?: boolean;
 }) => {
   const data = useMemo(() => {
     return countGroupAndSort({
@@ -20,7 +22,8 @@ export const TopAlbumsStatistics = ({
   return (
     <StatisticCard
       label="Top 10 Albums"
-      option={{
+      isLoading={isLoading}
+      chartOptions={{
         xAxis: {
           type: "category",
           data: data.labels,

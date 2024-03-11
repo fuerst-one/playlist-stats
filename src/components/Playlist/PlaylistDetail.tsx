@@ -28,9 +28,15 @@ export const PlaylistDetail = ({ playlist }: { playlist: SpotifyPlaylist }) => {
       <h2 className="mb-2 text-lg font-semibold text-gray-200">
         Playlist Statistics
       </h2>
-      <PlaylistStats trackStatistics={playlistStatsQuery.data ?? []} />
+      <PlaylistStats
+        trackStatistics={playlistStatsQuery.data ?? []}
+        isLoading={playlistStatsQuery.isLoading}
+      />
       <h2 className="mb-2 mt-8 text-lg font-semibold text-gray-200">
-        {playlistStatsQuery.data?.length ?? "Loading"} Tracks
+        {playlistStatsQuery.isLoading
+          ? "Loading"
+          : playlistStatsQuery.data?.length ?? 0}{" "}
+        Tracks
       </h2>
       <TrackList tracks={playlistStatsQuery.data ?? []} />
     </div>

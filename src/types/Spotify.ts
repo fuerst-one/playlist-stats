@@ -9,7 +9,7 @@ export type SpotifyEnumeratedResponse<ReturnType> = {
 };
 
 export type SpotifyPlaylist = {
-  collaborative: false;
+  collaborative: boolean;
   description: string;
   external_urls: { spotify: string };
   href: string;
@@ -17,8 +17,8 @@ export type SpotifyPlaylist = {
   images: SpotifyImage[];
   name: string;
   owner: SpotifyUser;
-  primary_color: null;
-  public: false;
+  primary_color: string | null;
+  public: boolean;
   snapshot_id: string;
   tracks: {
     href: string;
@@ -31,21 +31,21 @@ export type SpotifyPlaylist = {
 export type SpotifyPlaylistItem = {
   added_at: string;
   added_by: SpotifyUser;
-  is_local: false;
-  primary_color: null;
+  is_local: boolean;
+  primary_color: string | null;
   track: SpotifyTrack;
   video_thumbnail: {
-    url: null;
+    url: string | null;
   };
 };
 
 export type SpotifyTrack = {
   preview_url: string;
   available_markets: string[];
-  explicit: false;
+  explicit: boolean;
   type: string;
-  episode: false;
-  track: true;
+  episode: boolean;
+  track: boolean;
   album: SpotifyAlbum;
   artists: SpotifyUser[];
   disc_number: number;
@@ -60,9 +60,9 @@ export type SpotifyTrack = {
   href: string;
   id: string;
   name: string;
-  popularity: 26;
+  popularity: number;
   uri: string;
-  is_local: false;
+  is_local: boolean;
 };
 
 export type SpotifyAlbum = {
